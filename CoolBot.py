@@ -1,0 +1,108 @@
+import requests
+import os
+import random
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} olarak giriş yaptık')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Merhaba! Ben {bot.user}, bir Discord sohbet botuyum!')
+
+@bot.command()
+async def geri_donusum(ctx):
+    await ctx.send(f'Cam, kagit, karton, plastik, metal, tekstil, elektronik atiklar, piller ve bitkisel yaglar geri donusturulebilir atik çeşitleridir.')
+
+@bot.command()
+async def plastik(ctx):
+    await ctx.send(f'Plastigin ayrismasinin yaklasik 1,000 yil surdugun biliyor muydunuz?')
+
+@bot.command()
+async def cam(ctx):
+    await ctx.send(f'Cam ayrismasinin yaklasik 1,000,000 yil surdugun biliyor muydunuz?')
+
+@bot.command()
+async def hizli(ctx):
+    await ctx.send(f'Bazi organik gida atiklarinin yaklasik bir hafta icinde ayristigini biliyor muydunuz?')
+
+@bot.command()
+async def durdurmak(ctx):
+    await ctx.send(f'Tek kullanimlik plastikler (poset, sise, catal-bicak) yerine yeniden kullanilabilir urunler tercih edin.')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def joined(ctx, member: discord.Member):
+    """Says when a member joined."""
+    await ctx.send(f'{member.name} joined {discord.utils.format_dt(member.joined_at)}')
+
+@bot.command()
+async def add(ctx, left: int, right: int):
+    """Adds two numbers together."""
+    await ctx.send(left + right)
+
+@bot.command()
+async def subtract(ctx, left: int, right: int):
+    """subtracts two numbers together."""
+    await ctx.send(left - right)
+
+@bot.command()
+async def multiply(ctx, left: int, right: int):
+    """multiplies two numbers together."""
+    await ctx.send(left * right)
+
+@bot.command()
+async def divide(ctx, left: int, right: int):
+    """divides two numbers together."""
+    await ctx.send(left / right)
+
+@bot.command()
+async def power(ctx, left: int, right: int):
+    """power two numbers together."""
+    await ctx.send(left ** right)
+
+@bot.command()
+async def meme(ctx):
+    files = os.listdir('images')
+    selected = random.choice(files)    
+    with open(f'images/{selected}', 'rb') as f:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(f)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file=picture)
+
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+@bot.command('duck')
+async def duck(ctx):
+    '''duck komutunu çağırdığımızda, program ordek_resmi_urlsi_al fonksiyonunu çağırır.'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+@bot.command()
+async def futbol(ctx):
+    files = os.listdir('futbol')
+    selected = random.choice(files)    
+    with open(f'futbol/{selected}', 'rb') as f:
+        # Dönüştürülen Discord kütüphane dosyasını bu değişkende saklayalım!
+        picture = discord.File(f)
+   # Daha sonra bu dosyayı bir parametre olarak gönderebiliriz!
+    await ctx.send(file=picture)
+
+bot.run("")
+
+#put your own discord pin/code in line 106
